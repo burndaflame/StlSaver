@@ -14,7 +14,7 @@ You can automatically load HeroSaver when you visit HeroForge by adding a Grease
 
 after a script manager is installed click following link to add the script: 
 
-<https://github.com/dserhienko/StlSaver/raw/master/greasemonkey_autoload.user.js>
+<https://github.com/burndaflame/StlSaver/raw/master/greasemonkey_autoload.user.js>
 
 you are done.
 
@@ -29,7 +29,7 @@ Alternatively you can load the HeroSaver manually everytime you visit HeroForge.
   3. Paste the following
   
 ```
-var xhr=new XMLHttpRequest;xhr.open("get","https://raw.githubusercontent.com/dserhienko/stlsaver/master/herosaver.js",true);xhr.onreadystatechange=function(){if(xhr.readyState==4){var script=document.createElement("script");script.type="text/javascript";script.text=xhr.responseText;document.body.appendChild(script)}};xhr.send(null);
+var xhr=new XMLHttpRequest;xhr.open("get","https://raw.githubusercontent.com/burndaflame/stlsaver/master/herosaver.js",true);xhr.onreadystatechange=function(){if(xhr.readyState==4){var script=document.createElement("script");script.type="text/javascript";script.text=xhr.responseText;document.body.appendChild(script)}};xhr.send(null);
 ```
 
 
@@ -44,4 +44,5 @@ Once HeroSaver is loaded, you have these additional buttons on the top bar:
 Limitations
 -----------
 
+The exported torso is currently pretty wrangled.
 Some details of the figures are implemented via shaders. These are not exported :( This is also the reason, the exported figures look a bit _blocky_. If you want hight quality exports, consider purchasing the stl files from heroforge :)
