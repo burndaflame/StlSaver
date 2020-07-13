@@ -266,4 +266,4 @@ function get_name() {
   }
   return name;
 }
-//# sourceURL=somename.js
+//# sourceURL=herosaver.js
