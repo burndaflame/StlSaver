@@ -39,15 +39,17 @@ function init() {
                 if (geometry instanceof RK.BufferGeometry) {
                   var oldgeometry = geometry.clone();
                   geometry = new RK.Geometry().fromBufferGeometry(geometry);
-                  var skinIndex = oldgeometry.getAttribute('skinIndex0');
-                  var skinWeight = oldgeometry.getAttribute('skinWeight0');
+                  var skinIndex0 = oldgeometry.getAttribute('skinIndex0');
+                  var skinWeight0 = oldgeometry.getAttribute('skinWeight0');
+                  var skinIndex1 = oldgeometry.getAttribute('skinIndex0');
+                  var skinWeight1 = oldgeometry.getAttribute('skinWeight0');
                   var morphTarget = oldgeometry.getAttribute('morphTarget0');
                   var mtcount = 0;
                   while (typeof morphTarget !== 'undefined') {
                     mtcount++;
                     morphTarget = oldgeometry.getAttribute('morphTarget' + mtcount);
                   }
-                  if (typeof skinIndex !== 'undefined') {
+                  if (typeof skinIndex0 !== 'undefined') {
                     geometry.skinIndices = [];
                     geometry.skinWeights = [];
                     geometry.morphTargets = [];
@@ -56,8 +58,12 @@ function init() {
                       geometry.morphTargets[j].vertices = [];
                     }
                     for (var i = 0; i < geometry.vertices.length; i++) {
-                      geometry.skinIndices.push((new THREE.Vector4()).fromBufferAttribute(skinIndex, i));
-                      geometry.skinWeights.push((new THREE.Vector4()).fromBufferAttribute(skinWeight, i));
+                      geometry.skinIndices.push((new THREE.Vector4()).fromBufferAttribute(skinIndex0, i));
+                      geometry.skinWeights.push((new THREE.Vector4()).fromBufferAttribute(skinWeight0, i));
+                      if( typeof skinIndex1 !== 'undefined') {
+                        geometry.skinIndices.push((new THREE.Vector4()).fromBufferAttribute(skinIndex1, i));
+                        geometry.skinWeights.push((new THREE.Vector4()).fromBufferAttribute(skinWeight1, i));
+                      }
                       for (var j = 0; j < mtcount; j++) {
                         geometry.morphTargets[j].vertices.push((new THREE.Vector3()).fromBufferAttribute(oldgeometry.getAttribute('morphTarget' + j)));
                       }
