@@ -41,10 +41,13 @@ function init() {
                   geometry = new RK.Geometry().fromBufferGeometry(geometry);
                   var skinIndex0 = oldgeometry.getAttribute('skinIndex0');
                   var skinWeight0 = oldgeometry.getAttribute('skinWeight0');
-                  var skinIndex1 = oldgeometry.getAttribute('skinIndex0');
-                  var skinWeight1 = oldgeometry.getAttribute('skinWeight0');
                   var morphTarget = oldgeometry.getAttribute('morphTarget0');
                   var mtcount = 0;
+
+                  // TODO: find out what skinIndex1 and skinWeight1 are supposed to acomplish
+                  // var skinIndex1 = oldgeometry.getAttribute('skinIndex0');
+                  // var skinWeight1 = oldgeometry.getAttribute('skinWeight0');
+
                   while (typeof morphTarget !== 'undefined') {
                     mtcount++;
                     morphTarget = oldgeometry.getAttribute('morphTarget' + mtcount);
@@ -60,10 +63,10 @@ function init() {
                     for (var i = 0; i < geometry.vertices.length; i++) {
                       geometry.skinIndices.push((new THREE.Vector4()).fromBufferAttribute(skinIndex0, i));
                       geometry.skinWeights.push((new THREE.Vector4()).fromBufferAttribute(skinWeight0, i));
-                      if( typeof skinIndex1 !== 'undefined') {
-                        geometry.skinIndices.push((new THREE.Vector4()).fromBufferAttribute(skinIndex1, i));
-                        geometry.skinWeights.push((new THREE.Vector4()).fromBufferAttribute(skinWeight1, i));
-                      }
+                      // if( typeof skinIndex1 !== 'undefined') {
+                      //   geometry.skinIndices.push((new THREE.Vector4()).fromBufferAttribute(skinIndex1, i));
+                      //   geometry.skinWeights.push((new THREE.Vector4()).fromBufferAttribute(skinWeight1, i));
+                      // }
                       for (var j = 0; j < mtcount; j++) {
                         geometry.morphTargets[j].vertices.push((new THREE.Vector3()).fromBufferAttribute(oldgeometry.getAttribute('morphTarget' + j)));
                       }
@@ -222,7 +225,7 @@ function init() {
 
     sscene.click(function(e) {
       e.preventDefault();
-      var char_json = JSON.stringify(JSON.decycle(CK.character));
+      var char_json = JSON.stringify(JSON.decycle(CK.scene));
       var name = get_name() + "_scene";
       download(char_json, name + ".json", "text/plain");
     });
