@@ -187,14 +187,12 @@ function init() {
       });
     }
 
-
-    var characterArea_hook = ".headerMenu-container";
     var menu_style = {"margin-left": "20px", "width": "80px"};
 
     var character_area, stl_base, sjson, ljson, labeljson;
 
     stl_base = jQuery("<a class='jss7 jss9 jss10' />").css(menu_style).text("Export STL");
-    stl_base = jQuery("<a class='jss7 jss9 jss10' />").css(menu_style).text("Export Scene as JSON");
+    sscene = jQuery("<a class='jss7 jss9 jss10' />").css(menu_style).text("Export Scene as JSON");
     sjson = jQuery("<a class='jss7 jss9 jss10' />").css(menu_style).text("Export JSON");
     ljson = jQuery("<input/>").attr({"type": "file", "id": "ljson"}).css({"display": "none"}).text("Import (JSON)");
     labeljson = jQuery("<label class='jss7 jss9 jss10' />").attr({"for": "ljson"}).css(menu_style).text("Import (JSON)");
@@ -203,6 +201,7 @@ function init() {
     character_area.css({"display": "flex", "justify-content": "center", "align-content": "center"});
 
     character_area.append(stl_base);
+    character_area.append(sscene);
     character_area.append(sjson);
     character_area.append(ljson);
     character_area.append(labeljson);
