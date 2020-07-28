@@ -84,7 +84,7 @@ function init() {
 
                       for (var j = 0; j < 3; j++) {
                         var vertexIndex = indices[j];
-                        if (1 == 1 || typeof geometry.skinIndices !== 'undefined' && geometry.skinIndices.length == 0) {
+                        if (typeof geometry.skinIndices !== 'undefined' && geometry.skinIndices.length == 0) {
                           vector.copy(vertices[vertexIndex]).applyMatrix4(matrixWorld);
                           output += '\t\t\tvertex ' + vector.x + ' ' + vector.y + ' ' + vector.z + '\n';
                         } else {
