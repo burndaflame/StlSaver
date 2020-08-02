@@ -196,7 +196,7 @@ function init() {
 
     var menu_style = {"margin-left": "20px", "width": "80px"};
 
-    var character_area, stl_base, sjson, ljson, labeljson;
+    var character_area, stl_base, sjson, ljson, labeljson, sscene;
 
     stl_base = jQuery("<a class='jss7 jss9 jss10' />").css(menu_style).text("Export STL");
     sscene = jQuery("<a class='jss7 jss9 jss10' />").css(menu_style).text("Export Scene as JSON");
