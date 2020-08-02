@@ -1,6 +1,9 @@
 //cycle.js, by douglascrockford; 2018-05-15 [Public Domain] see https://github.com/douglascrockford/JSON-js for usage
 if (typeof JSON.decycle !== "function") {JSON.decycle = function decycle(object, replacer) {"use strict"; var objects = new WeakMap(); return (function derez(value, path) {var old_path; var nu; if (replacer !== undefined) {value = replacer(value)} if (typeof value === "object" && value !== null && !(value instanceof Boolean) && !(value instanceof Date) && !(value instanceof Number) && !(value instanceof RegExp) && !(value instanceof String)) {old_path = objects.get(value); if (old_path !== undefined) {return {$ref: old_path}} objects.set(value, path); if (Array.isArray(value)) {nu = []; value.forEach(function (element, i) {nu[i] = derez(element, path + "[" + i + "]")})} else {nu = {}; Object.keys(value).forEach(function (name) {nu[name] = derez(value[name], path + "[" + JSON.stringify(name) + "]")})} return nu} return value}(object, "$"))}} if (typeof JSON.retrocycle !== "function") {JSON.retrocycle = function retrocycle($) {"use strict"; var px = /^\$(?:\[(?:\d+|"(?:[^\\"\u0000-\u001f]|\\(?:[\\"\/bfnrt]|u[0-9a-zA-Z]{4}))*")\])*$/; (function rez(value) {if (value && typeof value === "object") {if (Array.isArray(value)) {value.forEach(function (element, i) {if (typeof element === "object" && element !== null) {var path = element.$ref; if (typeof path === "string" && px.test(path)) {value[i] = eval(path)} else {rez(element)} } })} else {Object.keys(value).forEach(function (name) {var item = value[name]; if (typeof item === "object" && item !== null) {var path = item.$ref; if (typeof path === "string" && px.test(path)) {value[name] = eval(path)} else {rez(item)} } })} } }($)); return $}}
 
+import {GLTFExporter} from 'https://cdn.jsdelivr.net/npm/three@0.119.1/examples/jsm/exporters/GLTFExporter.js';
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.119.1/build/three.module.js';
+
 function init() {
   (function () {
 
@@ -196,9 +199,10 @@ function init() {
 
     var menu_style = {"margin-left": "20px", "width": "80px"};
 
-    var character_area, stl_base, sjson, ljson, labeljson, sscene;
+    var character_area, stl_base, sjson, ljson, labeljson, sscene, gltf_base;
 
     stl_base = jQuery("<a class='jss7 jss9 jss10' />").css(menu_style).text("Export STL");
+    gltf_base = jQuery("<a class='jss7 jss9 jss10' />").css(menu_style).text("Export GLTF");
     sscene = jQuery("<a class='jss7 jss9 jss10' />").css(menu_style).text("Export Scene as JSON");
     sjson = jQuery("<a class='jss7 jss9 jss10' />").css(menu_style).text("Export JSON");
     ljson = jQuery("<input/>").attr({"type": "file", "id": "ljson"}).css({"display": "none"}).text("Import (JSON)");
@@ -208,6 +212,7 @@ function init() {
     character_area.css({"display": "flex", "justify-content": "center", "align-content": "center"});
 
     character_area.append(stl_base);
+    character_area.append(gltf_base);
     character_area.append(sscene);
     character_area.append(sjson);
     character_area.append(ljson);
@@ -219,6 +224,18 @@ function init() {
       var stlString = exporter.parse([CK.character])
       var name = get_name();
       download(stlString, name + '.stl', 'application/sla');
+    });
+
+    gltf_base.click(function (e) {
+      e.preventDefault();
+      // Instantiate a exporter
+      var exporter = new GLTFExporter();
+
+      // Parse the input and generate the glTF output
+      exporter.parse(scene, function (gltf) {
+        console.log(gltf);
+        downloadJSON(gltf);
+      }/*, options*/);
     });
 
     sscene.click(function(e) {
@@ -260,9 +277,7 @@ function inject_script(url, callback) {
   head.appendChild(script);
 }
 
-inject_script("//code.jquery.com/jquery-3.3.1.min.js", function () {
-  inject_script("//cdnjs.cloudflare.com/ajax/libs/three.js/100/three.js", function () {init()})
-});
+inject_script("//code.jquery.com/jquery-3.3.1.min.js", function () {init()});
 
 function get_name() {
   var timestamp = new Date().getUTCMilliseconds();
