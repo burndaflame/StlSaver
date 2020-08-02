@@ -232,7 +232,7 @@ function init() {
       var exporter = new GLTFExporter();
 
       // Parse the input and generate the glTF output
-      exporter.parse(scene, function (gltf) {
+      exporter.parse(CK.scene, function (gltf) {
         console.log(gltf);
         downloadJSON(gltf);
       }/*, options*/);
